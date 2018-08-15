@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+
+        .wavesurfer-handle{
+            position: absolute;
+            width: 1px;
+            height: 30%;
+            left: 100px;
+            background-color: wheat;
+            z-index: 2;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="waveform">
+
+    </div>
+    <button onclick="wavesurfer.skipForward()">快进</button>
+    <button onclick="wavesurfer.playPause()">播放</button>
+    <button onclick="time()">提交</button>
+</body>
+<script src="wavesurfer.min.js"></script>
+<script src="wavesurfer-html-init.js"></script>
+<script src="wavesurfer.regions.js"></script>-
+<script>    
+    var obj={
+            id:'waveform',
+            start:3,
+            end:40,
+            loop:false,//选择区域循环播放
+            drag:true,
+            resize:true,
+            color:"rgba(0,0,0,0.1)",
+      }
+    var RegionsPlugin = window.WaveSurfer.regions;
+    var wavesurfer = WaveSurfer.create({
+    container: '#waveform',//选择器
+    waveColor: '#F10215', //
+    progressColor: '#00ffff',
+    hideScrollbar:true,
+    interact:true,
+    height:200,
+    hideScrollbar:true,
+    plugins: [
+         RegionsPlugin.create()
+    ]
+});
+wavesurfer.load('./1.mp3');
+wavesurfer.on('ready', function () {
+    wavesurfer.play();
+    wavesurfer.addRegion(obj)  //设置选取
+    // wavesurfer.enableDragSelection(obj) //允许条件选取
+    wavesurfer.regions.list
+});
+
+function time(){
+    var c=  document.querySelector('.wavesurfer-region')
+console.log(c.title);
+
+}
+wavesurfer.on('region-update-end',()=>{
+    var c=  document.querySelector('.wavesurfer-region')
+console.log(c.title);
+})
+
+</script>
+</html>
