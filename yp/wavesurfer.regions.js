@@ -299,7 +299,8 @@ var Region = function () {
         value: function formatTime(start, end) {
             return (start == end ? [start] : [start, end]).map(function (time) {
                 return [Math.floor(time % 3600 / 60), // minutes
-                ('00' + Math.floor(time % 60)).slice(-2) // seconds
+                    // return [Math.floor(time % 3600 / 60), // minutes
+                (time % 60) // seconds
                 ].join(':');
             }).join('-');
         }

@@ -15,41 +15,59 @@
             background-color: wheat;
             z-index: 2;
         }
+        .video{
+            display: none
+        }
         
     </style>
 </head>
 <body>
     <div id="waveform">
-
     </div>
+    <div id="wave-timeline">
+            <div id="timeline"></div>
+    </div>
+    <video class="video" src="./1.mp3"></video>
     <button onclick="wavesurfer.skipForward()">快进</button>
     <button onclick="wavesurfer.playPause()">播放</button>
     <button onclick="time()">提交</button>
+    <button onclick="zong()">总时间</button>
 </body>
 <script src="wavesurfer.min.js"></script>
 <script src="wavesurfer-html-init.js"></script>
-<script src="wavesurfer.regions.js"></script>-
+<script src="wavesurfer.regions.js"></script>
+<script src="./plugin/wavesurfer.timeline.js"></script>
 <script>    
     var obj={
             id:'waveform',
             start:3,
-            end:40,
+            end:40.2222,
             loop:false,//选择区域循环播放
             drag:true,
             resize:true,
             color:"rgba(0,0,0,0.1)",
       }
     var RegionsPlugin = window.WaveSurfer.regions;
+    var TimelinePlugin = window.WaveSurfer.timeline;
     var wavesurfer = WaveSurfer.create({
     container: '#waveform',//选择器
     waveColor: '#F10215', //
     progressColor: '#00ffff',
-    hideScrollbar:true,
+    hideScrollbar:false,  //     是否隐藏滚动条
     interact:true,
     height:200,
-    hideScrollbar:true,
+    fillParent:false,
+    cursorWidth:1,
+    scrollParent:true,    //    1  波形滚动器
+    maxCanvasWidth:4000,  //    2  画布宽度
+    minPxPerSec:1000,     //    3  1秒音频算渲染的像素
+    partialRender:true,   //    4  大波形渲染加速
+    forceDecode:true,     //    5  波形性详细化
     plugins: [
-         RegionsPlugin.create()
+         RegionsPlugin.create(),
+         TimelinePlugin.create({
+             container:'#wave-timeline'
+         })
     ]
 });
 wavesurfer.load('./1.mp3');
@@ -57,12 +75,22 @@ wavesurfer.on('ready', function () {
     wavesurfer.play();
     wavesurfer.addRegion(obj)  //设置选取
     // wavesurfer.enableDragSelection(obj) //允许条件选取
-    wavesurfer.regions.list
+
 });
+
 
 function time(){
     var c=  document.querySelector('.wavesurfer-region')
 console.log(c.title);
+
+}
+function zong(){
+    var c=document.querySelector('.video')
+   
+    // console.log(c.duration);
+    // waveform.duration
+    console.log(c.duration);
+    
 
 }
 wavesurfer.on('region-update-end',()=>{
